@@ -18,5 +18,7 @@ clean:
 
 build:
 
+test: build unit-test
+
 unit-test: build
 	py.test tests/unit
