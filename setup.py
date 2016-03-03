@@ -14,12 +14,13 @@ import sys
 from setuptools import setup
 
 setup(
-    name="round-py",
-    version='1.0',
-    description="Python client for DockRounder.",
+    name='round-py',
+    version='0.8.0',
+    description="Python client for Round",
     author='Satoshi Konno',
     author_email='skonno@cybergarage.org',
     url='https://github.com/cybergarage/round-py',
+    license='BSD',
     packages=[
         'round'
     ],
@@ -36,6 +37,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Topic :: Utilities',
-        'License :: OSI Approved :: new BSD license',
+        'License :: OSI Approved :: BSD License',
     ],    
 )
