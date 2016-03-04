@@ -9,7 +9,9 @@
 ##################################################################
 
 import pytest
-import round
+from round import server
 
 def test_server():
-    server = Server()
+    # server = round.Server()
+    test = 1
+
