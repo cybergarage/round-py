@@ -9,3 +9,7 @@
 ##################################################################
 
 import pytest
+import round
+
+def test_server():
+    server = Server()

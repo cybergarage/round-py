@@ -8,5 +8,14 @@
 #
 ##################################################################
 
+import json
+import requests
+
 class Node:
-    def __init__():
+    def __init__(self):
+        self.port = 0
+        self.address = ""
+        
+    def post_method(self, method, params):
+        url = self.address + "+" + self.port
+        r = requests.post(url, data = {"method":method})
