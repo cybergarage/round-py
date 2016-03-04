@@ -9,3 +9,16 @@
 ##################################################################
 
 import pytest
+
+import sys
+sys.path.append("../../")
+print sys.path
+
+# import round
+
+class TestNode:
+    def test_node(self):
+        print sys.path
+
+def test_node():
+    print sys.path
