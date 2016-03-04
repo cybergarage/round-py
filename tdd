@@ -1,0 +1,34 @@
+#/bin/sh
+#################################################################
+#
+# Round for Python
+#
+# Copyright (C) Satoshi Konno 2016
+#
+# This is licensed under BSD-style license, see file COPYING.
+#
+##################################################################
+
+export GOPATH=`pwd`
+
+fswatch=`which fswatch`
+inotifywait=`which inotifywait`
+
+watchdir="round tests"
+
+# For fswatch 
+
+if [ ${#fswatch} -gt 0 ]; then
+  ${fswatch} -o ${watchdir} | xargs -n1 -I{} py.test
+  exit 0
+fi
+
+# For inotifywait
+
+if [ ${#inotifywait} -gt 0 ]; then
+  while ${inotifywait} -qr -e modify ${watchdir}; do
+	py.test
+  done
+fi
+
+exit 1
