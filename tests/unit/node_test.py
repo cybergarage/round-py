@@ -19,6 +19,3 @@ print sys.path
 class TestNode:
     def test_node(self):
         print sys.path
-
-def test_node():
-    print sys.path
