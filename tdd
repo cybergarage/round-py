@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/bash
 #################################################################
 #
 # Round for Python
@@ -9,7 +9,7 @@
 #
 ##################################################################
 
-PYTHONPATH=.
+export PYTHONPATH=.
 
 fswatch=`which fswatch`
 inotifywait=`which inotifywait`
