@@ -9,9 +9,12 @@
 ##################################################################
 
 import pytest
-from round import server
+from round import Server, DockerServer
 
 def test_server():
-    # server = round.Server()
-    test = 1
+    srv = Server()
 
+def test_contaner_server():
+    srv = DockerServer()
+    assert srv.start
+    assert srv.stop
