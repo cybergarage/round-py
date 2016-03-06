@@ -9,12 +9,17 @@
 ##################################################################
 
 import pytest
-from round import Server, DockerServer
+from round import Server, ProcessServer, ContainerServer
 
 def test_server():
     srv = Server()
 
+def test_process_server():
+    srv = ProcessServer()
+    assert srv.start()
+    assert srv.stop()
+
 def test_contaner_server():
-    srv = DockerServer()
-    assert srv.start
-    assert srv.stop
+    srv = ContainerServer()
+    assert srv.start()
+    assert srv.stop()
