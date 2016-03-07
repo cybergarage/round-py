@@ -11,36 +11,61 @@
 import socket
 import subprocess
 import multiprocessing
+
 from docker import Client
+
+from . import constants
 
 class Server:
     def __init__(self):
         self.nodes = []
-        self.ifaddr = socket.gethostbyname(socket.gethostname())
-        print(self.ifaddr)
 
-    def start(n=0):
+    def start(n=1):
         return False
 
     def stop(self):
         return False
 
-def exec_round_process():
-    if subprocess.call('/usr/local/bin/roundd') != 0:
+def exec_round_process(port):
+    round_addr_opt = '-i %s' % socket.gethostbyname(socket.gethostname())
+    print(round_addr_opt)
+    round_port_opt = '-p %d' % port
+    print(round_port_opt)
+    round_cmd = ['/usr/local/bin/roundd', round_addr_opt, round_port_opt]
+    print(' '.join(round_cmd))
+    if subprocess.call(round_cmd) != 0:
         return False
     return True
 
 class ProcessServer(Server):
     def __init__(self):
         Server.__init__(self)
+        self.processes = []
 
-    def start(self, n=0):
-        self.process = multiprocessing.Process(target='exec_round_process')
-        self.process.start()
+    def __del__(self):
+        self.stop()
+
+    def start(self, n=1):
+        self.stop()
+        print(n)
+        for offset in xrange(n):
+            print(offset)
+            port = constants.DEFAULT_NODE_BIND_PORT + offset
+            print(port)
+            process = multiprocessing.Process(target=exec_round_process, args=(port,))
+            process.start()
+            process.join()
+            print(process.exitcode)
+            if process.exitcode != 0:
+                self.stop()
+                return False
+            self.processes.append(process)
         return True
 
     def stop(self):
-        self.process.terminate()
+        for process in self.processes:
+            process.terminate()
+        self.processes = []
         return True
 
 class ContainerServer(Server):
@@ -56,7 +81,7 @@ class ContainerServer(Server):
         #    print(keys)
         #    print(values)
 
-    def start(self, n=0):
+    def start(self, n=1):
         return True
         res = self.docker.start(container=self.container.get('Id'))
 
