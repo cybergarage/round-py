@@ -13,6 +13,9 @@ from round import Server, ProcessServer, ContainerServer
 
 def test_server():
     srv = Server()
+    assert len(srv.nodes) == 0
+    assert srv.start() != True
+    assert srv.stop() != True
 
 def test_process_server():
     srv = ProcessServer()

@@ -8,15 +8,18 @@
 #
 ##################################################################
 
+import socket
 import subprocess
 import multiprocessing
 from docker import Client
 
 class Server:
     def __init__(self):
-        self.addr = ""
+        self.nodes = []
+        self.ifaddr = socket.gethostbyname(socket.gethostname())
+        print(self.ifaddr)
 
-    def start(self):
+    def start(n=0):
         return False
 
     def stop(self):
@@ -31,7 +34,7 @@ class ProcessServer(Server):
     def __init__(self):
         Server.__init__(self)
 
-    def start(self):
+    def start(self, n=0):
         self.process = multiprocessing.Process(target='exec_round_process')
         self.process.start()
         return True
@@ -49,11 +52,11 @@ class ContainerServer(Server):
         self.container = self.docker.create_container(
             image='cybergarage/round:latest',
             command='/bin/sleep 5')
-        for keys,values in self.container.items():
-            print(keys)
-            print(values)
+        #for keys,values in self.container.items():
+        #    print(keys)
+        #    print(values)
 
-    def start(self):
+    def start(self, n=0):
         return True
         res = self.docker.start(container=self.container.get('Id'))
 
