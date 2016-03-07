@@ -1,0 +1,23 @@
+#!/usr/bin/perl
+print<<HEADER;
+#################################################################
+#
+# Round for Python
+#
+# Copyright (C) Satoshi Konno 2016
+#
+# This is licensed under BSD-style license, see file COPYING.
+#
+##################################################################
+
+HEADER
+@const_lines = `curl -s https://raw.githubusercontent.com/cybergarage/round/master/const/constants.csv | awk '/./' | awk '\$0 !~ /^#/{print \$0}'`;
+foreach $const_line (@const_lines) {
+  @const = split(/,/, $const_line);
+  #$const[0] =~ s/_([a-z])/\u$1/g;
+  #$const[0] =~ s/^([a-z])/\u$1/;
+  $const[0] =~ s/([a-z])/\u$1/g;
+  print $const[0] . " = " . $const[1];
+}
+print<<FOTTER;
+FOTTER
