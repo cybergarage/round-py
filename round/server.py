@@ -11,11 +11,15 @@
 import socket
 import subprocess
 import multiprocessing
+import time
 
 from docker import Client
 
 from . import constants
 from .node import Node
+
+def node_process_wait():
+    time.sleep(0.5)
 
 class Server:
     def __init__(self):
@@ -61,6 +65,8 @@ class ProcessServer(Server):
             #    self.stop()
             #    return False
 
+            node_process_wait()
+
             self.processes.append(process)
 
             node = Node()
@@ -72,6 +78,7 @@ class ProcessServer(Server):
     def stop(self):
         for process in self.processes:
             process.terminate()
+            node_process_wait()
         self.processes = []
         return Server.stop(self)
 

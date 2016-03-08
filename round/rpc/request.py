@@ -14,26 +14,29 @@ from .. import constants
 
 class Request:
     def __init__(self):
-        self.params = {
+        self.dict = {
             constants.JSON_RPC_JSONRPC: constants.JSON_RPC_VERSION,
         }
 
+    def __str__(self):
+        return json.dumps(self.dict)
+
     @property
     def version(self):
-        return self.params[constants.JSON_RPC_JSONRPC]
+        return self.dict[constants.JSON_RPC_JSONRPC]
 
     @property
     def method(self):
-        return self.params[constants.JSON_RPC_METHOD]
+        return self.dict[constants.JSON_RPC_METHOD]
 
     @method.setter
     def method(self, method):
-        self.params[constants.JSON_RPC_METHOD] = method
+        self.dict[constants.JSON_RPC_METHOD] = method
 
     @property
     def params(self):
-        return self.params[constants.JSON_RPC_PARAMS]
+        return self.dict[constants.JSON_RPC_PARAMS]
 
     @params.setter
     def params(self, params):
-        self.params[constants.JSON_RPC_PARAMS] = params
+        self.dict[constants.JSON_RPC_PARAMS] = params

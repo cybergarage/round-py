@@ -9,12 +9,8 @@
 ##################################################################
 
 import pytest
-import time
 
 from round import Server, ProcessServer, ContainerServer
-
-def node_start_wait():
-    time.sleep(0.5)
 
 def test_server():
     srv = Server()
@@ -33,7 +29,6 @@ def test_process_server():
     assert srv.start()
     assert len(srv.nodes) == 1
 
-    node_start_wait()
     node = srv.nodes[0]
     assert node.is_alive()
 

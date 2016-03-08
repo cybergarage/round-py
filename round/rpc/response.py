@@ -14,26 +14,29 @@ from .. import constants
 
 class Response:
     def __init__(self):
-        self.params = {
+        self.dict = {
             constants.JSON_RPC_JSONRPC: constants.JSON_RPC_VERSION,
         }
 
+    def __str__(self):
+        return json.dumps(self.dict)
+
     @property
     def version(self):
-        return self.params[constants.JSON_RPC_JSONRPC]
+        return self.dict[constants.JSON_RPC_JSONRPC]
 
     @property
     def result(self):
-        return self.params[constants.JSON_RPC_RESULT]
+        return self.dict[constants.JSON_RPC_RESULT]
 
     @result.setter
     def result(self, result):
-        self.params[constants.JSON_RPC_METHOD] = result
+        self.dict[constants.JSON_RPC_METHOD] = result
 
     @property
     def error(self):
-        return self.params[constants.JSON_RPC_ERROR]
+        return self.dict[constants.JSON_RPC_ERROR]
 
     @error.setter
     def error(self, error):
-        self.params[constants.JSON_RPC_ERROR] = error
+        self.dict[constants.JSON_RPC_ERROR] = error
