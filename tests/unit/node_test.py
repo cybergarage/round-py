@@ -9,6 +9,7 @@
 ##################################################################
 
 import pytest
+import datetime
 
 from round import ProcessServer
 from round import constants
@@ -28,5 +29,12 @@ def test_node_echo():
     assert node.is_alive()
 
     assert node.set_method(RPC_METHOD_HELLO_NAME, constants.SCRIPT_LANGUAGE_PYTHON, PY_ECHO_CODE)
+
+    now = datetime.datetime.now()
+    echoParam = now.strftime("%Y/%m/%d %H:%M:%S")
+    print(echoParam)
+
+    assert node.post_method(RPC_METHOD_HELLO_NAME, echoParam)
+    assert node.result == echoParam
 
     assert srv.stop()
