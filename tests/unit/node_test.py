@@ -10,10 +10,6 @@
 
 import pytest
 
-import sys
-sys.path.append("../../")
-print sys.path
-
 # import round
 
 class TestNode:
