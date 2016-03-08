@@ -15,24 +15,24 @@ import multiprocessing
 from docker import Client
 
 from . import constants
+from .node import Node
 
 class Server:
     def __init__(self):
         self.nodes = []
 
     def start(n=1):
-        return False
+        return True
 
     def stop(self):
-        return False
+        self.nodes = []
+        return True
 
-def exec_round_process(port):
-    round_addr_opt = '-i %s' % socket.gethostbyname(socket.gethostname())
-    print(round_addr_opt)
+def exec_round_process(addr, port):
+    # Run as standalone mode
+    round_addr_opt = '-i %s' % addr
     round_port_opt = '-p %d' % port
-    print(round_port_opt)
-    round_cmd = ['/usr/local/bin/roundd', round_addr_opt, round_port_opt]
-    print(' '.join(round_cmd))
+    round_cmd = ['/usr/local/bin/roundd', '-f', round_addr_opt, round_port_opt]
     if subprocess.call(round_cmd) != 0:
         return False
     return True
@@ -49,30 +49,37 @@ class ProcessServer(Server):
         self.stop()
         print(n)
         for offset in xrange(n):
-            print(offset)
+            addr = socket.gethostbyname(socket.gethostname())
             port = constants.DEFAULT_NODE_BIND_PORT + offset
-            print(port)
-            process = multiprocessing.Process(target=exec_round_process, args=(port,))
+            process = multiprocessing.Process(target=exec_round_process, args=(addr, port))
             process.start()
-            process.join()
-            print(process.exitcode)
-            if process.exitcode != 0:
-                self.stop()
-                return False
+
+            # Run as standalone mode
+            #process.join()
+            #print(process.exitcode)
+            #if process.exitcode != 0:
+            #    self.stop()
+            #    return False
+
             self.processes.append(process)
-        return True
+
+            node = Node()
+            node.address = addr
+            node.port = port
+            self.nodes.append(node)
+        return Server.start(self)
 
     def stop(self):
         for process in self.processes:
             process.terminate()
         self.processes = []
-        return True
+        return Server.stop(self)
 
 class ContainerServer(Server):
     def __init__(self):
         Server.__init__(self)
         #self.docker = Client(base_url='unix:///var/run/docker.sock')
-        self.docker = Client(base_url='tcp://192.168.99.100:2376')
+        #self.docker = Client(base_url='tcp://192.168.99.100:2376')
         return
         self.container = self.docker.create_container(
             image='cybergarage/round:latest',
