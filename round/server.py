@@ -41,6 +41,23 @@ def exec_round_process(addr, port):
         return False
     return True
 
+class DebugServer(Server):
+    def __init__(self):
+        Server.__init__(self)
+
+    def __del__(self):
+        self.stop()
+
+    def start(self, n=1):
+        node = Node()
+        node.address = socket.gethostbyname(socket.gethostname())
+        node.port = constants.DEFAULT_NODE_BIND_PORT
+        self.nodes.append(node)
+        return Server.start(self)
+
+    def stop(self):
+        return Server.stop(self)
+
 class ProcessServer(Server):
     def __init__(self):
         Server.__init__(self)
