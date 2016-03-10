@@ -11,7 +11,7 @@
 import pytest
 import datetime
 
-from round import ProcessServer
+from round import ProcessServer, DebugServer
 from round import constants
 
 RPC_METHOD_HELLO_NAME = 'hello'
@@ -21,7 +21,7 @@ PY_ECHO_CODE = 'def %s(params):\n' \
                % RPC_METHOD_HELLO_NAME
 
 def test_node_echo():
-    srv = ProcessServer()
+    srv = DebugServer()
     assert srv.start()
     assert len(srv.nodes) == 1
 
@@ -32,7 +32,6 @@ def test_node_echo():
 
     now = datetime.datetime.now()
     echoParam = now.strftime("%Y/%m/%d %H:%M:%S")
-    print(echoParam)
 
     assert node.post_method(RPC_METHOD_HELLO_NAME, echoParam)
     assert node.result == echoParam

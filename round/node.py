@@ -10,6 +10,7 @@
 
 import json
 import requests
+import base64
 
 from . import constants
 from .rpc.request import Request
@@ -74,6 +75,7 @@ class Node:
         params = {
             constants.SYSTEM_METHOD_PARAM_NAME: name,
             constants.SYSTEM_METHOD_PARAM_LANGUAGE: lang,
-            constants.SYSTEM_METHOD_PARAM_CODE: code,
+            constants.SYSTEM_METHOD_PARAM_CODE: base64.b64encode(code),
+            constants.SYSTEM_METHOD_PARAM_ENCODE : constants.SYSTEM_METHOD_PARAM_BASE64,
         }
         return self.post_method(method=constants.SYSTEM_METHOD_SET_METHOD, params=params)
