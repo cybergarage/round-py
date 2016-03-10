@@ -10,5 +10,5 @@
 
 __title__ = 'round-py'
 
-from .server import Server, ProcessServer, ContainerServer
+from .server import Server, DebugServer, ProcessServer, ContainerServer
 from .node import Node
