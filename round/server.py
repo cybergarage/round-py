@@ -8,7 +8,6 @@
 #
 ##################################################################
 
-import socket
 import subprocess
 import multiprocessing
 import time
