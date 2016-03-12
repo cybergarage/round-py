@@ -24,6 +24,9 @@ setup(
     packages=[
         'round'
     ],
+    install_requires=[
+        'requests',
+    ],
     test_suite='tests',
     classifiers=[
         'Development Status :: 4 - Beta',
