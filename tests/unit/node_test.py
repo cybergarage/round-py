@@ -27,9 +27,28 @@ def test_node_echo():
     assert len(srv.nodes) == 1
 
     node = srv.nodes[0]
-    assert node.is_alive()
+    assert node.is_alive
 
     assert node.set_method(RPC_METHOD_HELLO_NAME, constants.SCRIPT_LANGUAGE_PYTHON, PY_ECHO_CODE)
+
+    now = datetime.datetime.now()
+    echoParam = now.strftime("%Y/%m/%d %H:%M:%S")
+
+    assert node.post_method(RPC_METHOD_HELLO_NAME, echoParam)
+    assert node.result == echoParam
+
+    assert srv.stop()
+
+def test_node_load_echo_module():
+    srv = TestServer()
+
+    assert srv.start()
+    assert len(srv.nodes) == 1
+
+    node = srv.nodes[0]
+    assert node.is_alive
+
+    assert node.load_module("https://raw.githubusercontent.com/cybergarage/round-py/master/tests/data/echo.json")
 
     now = datetime.datetime.now()
     echoParam = now.strftime("%Y/%m/%d %H:%M:%S")

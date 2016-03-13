@@ -31,7 +31,7 @@ def test_process_server():
     assert len(srv.nodes) == 1
 
     node = srv.nodes[0]
-    assert node.is_alive()
+    assert node.is_alive
 
     assert srv.stop()
     assert len(srv.nodes) == 0

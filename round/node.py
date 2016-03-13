@@ -13,6 +13,7 @@ import requests
 import base64
 
 from . import constants
+from .module import Module
 from .rpc.request import Request
 
 class Node:
@@ -79,3 +80,19 @@ class Node:
             constants.SYSTEM_METHOD_PARAM_ENCODE : constants.SYSTEM_METHOD_PARAM_BASE64,
         }
         return self.post_method(method=constants.SYSTEM_METHOD_SET_METHOD, params=params)
+
+    def load_module(self, url):
+        module = Module()
+        if not module.load(url):
+            return False
+
+        methods = module.methods
+        if len(methods) <= 0:
+            return False
+
+        for method in methods:
+            if not method.is_valid():
+                continue
+            self.set_method(method.name, method.language, method.code)
+
+        return True

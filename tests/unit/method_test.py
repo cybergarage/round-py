@@ -8,11 +8,10 @@
 #
 ##################################################################
 
-__title__ = 'round-py'
+import pytest
 
-from .server import Server, TestServer, DebugServer, ProcessServer, ContainerServer
-from .node import Node
-from .cluster import Cluster
-from .client import Client
-from .module import Module
-from .method import Method
+from round import Method
+
+def test_bad_method():
+    method = Method()
+    assert not method.is_valid()
