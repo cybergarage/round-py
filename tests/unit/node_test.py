@@ -11,7 +11,7 @@
 import pytest
 import datetime
 
-from round import TestServer
+from round import TestNode
 from round import constants
 
 RPC_METHOD_HELLO_NAME = 'hello'
@@ -21,12 +21,9 @@ PY_ECHO_CODE = 'def %s(params):\n' \
                % RPC_METHOD_HELLO_NAME
 
 def test_node_echo():
-    srv = TestServer()
 
-    assert srv.start()
-    assert len(srv.nodes) == 1
-
-    node = srv.nodes[0]
+    node = TestNode()
+    assert node.start()
     assert node.is_alive
 
     assert node.set_method(RPC_METHOD_HELLO_NAME, constants.SCRIPT_LANGUAGE_PYTHON, PY_ECHO_CODE)
@@ -37,15 +34,12 @@ def test_node_echo():
     assert node.post_method(RPC_METHOD_HELLO_NAME, echoParam)
     assert node.result == echoParam
 
-    assert srv.stop()
+    assert node.stop()
 
 def test_node_load_echo_module():
-    srv = TestServer()
 
-    assert srv.start()
-    assert len(srv.nodes) == 1
-
-    node = srv.nodes[0]
+    node = TestNode()
+    assert node.start()
     assert node.is_alive
 
     assert node.load_module("https://raw.githubusercontent.com/cybergarage/round-py/master/tests/data/echo.json")
@@ -56,4 +50,4 @@ def test_node_load_echo_module():
     assert node.post_method(RPC_METHOD_HELLO_NAME, echoParam)
     assert node.result == echoParam
 
-    assert srv.stop()
+    assert node.stop()

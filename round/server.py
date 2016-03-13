@@ -119,16 +119,3 @@ class ContainerServer(Server):
     def stop(self):
         return True
         return self.docker.stop(container=self.container.get('Id'))
-
-class TestServer(DebugServer):
-    def __init__(self):
-        DebugServer.__init__(self)
-
-    def __del__(self):
-        self.stop()
-
-    def start(self, n=1):
-        return DebugServer.start(self)
-
-    def stop(self):
-        return DebugServer.stop(self)

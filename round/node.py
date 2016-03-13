@@ -30,6 +30,10 @@ class Node:
     def error(self):
         return self.rpcRes[constants.JSON_RPC_ERROR]
 
+    def set_node(self, node):
+        self.port = node.port
+        self.address = node.address
+
     def create_http_url(self, path):
         url = 'http://%s:%d%s' % (self.address, self.port, path)
         return url
