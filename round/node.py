@@ -103,6 +103,7 @@ class Node:
         for method in methods:
             if not method.is_valid():
                 continue
-            self.set_method(method.name, method.language, method.code)
+            if not self.set_method(method.name, method.language, method.code):
+                return False
 
         return True
