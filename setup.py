@@ -15,7 +15,7 @@ from setuptools import setup
 
 setup(
     name='round-py',
-    version='0.8.0',
+    version='0.8.1',
     description="Python client for Round",
     author='Satoshi Konno',
     author_email='skonno@cybergarage.org',

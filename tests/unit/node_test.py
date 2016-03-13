@@ -11,7 +11,7 @@
 import pytest
 import datetime
 
-from round import ProcessServer, DebugServer
+from round import TestServer
 from round import constants
 
 RPC_METHOD_HELLO_NAME = 'hello'
@@ -21,7 +21,8 @@ PY_ECHO_CODE = 'def %s(params):\n' \
                % RPC_METHOD_HELLO_NAME
 
 def test_node_echo():
-    srv = DebugServer()
+    srv = TestServer()
+
     assert srv.start()
     assert len(srv.nodes) == 1
 
