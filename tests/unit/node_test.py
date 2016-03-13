@@ -14,11 +14,12 @@ import datetime
 from round import TestNode
 from round import constants
 
-RPC_METHOD_HELLO_NAME = 'hello'
+TEST_ECHO_MODULE = "https://raw.githubusercontent.com/cybergarage/round-py/master/tests/data/echo.json"
 
-PY_ECHO_CODE = 'def %s(params):\n' \
-               '  return params\n' \
-               % RPC_METHOD_HELLO_NAME
+TEST_RPC_METHOD_HELLO_NAME = 'hello'
+TEST_PY_ECHO_CODE = 'def %s(params):\n' \
+                    '  return params\n' \
+                    % TEST_RPC_METHOD_HELLO_NAME
 
 def test_node_echo():
 
@@ -26,12 +27,12 @@ def test_node_echo():
     assert node.start()
     assert node.is_alive
 
-    assert node.set_method(RPC_METHOD_HELLO_NAME, constants.SCRIPT_LANGUAGE_PYTHON, PY_ECHO_CODE)
+    assert node.set_method(TEST_RPC_METHOD_HELLO_NAME, constants.SCRIPT_LANGUAGE_PYTHON, TEST_PY_ECHO_CODE)
 
     now = datetime.datetime.now()
     echoParam = now.strftime("%Y/%m/%d %H:%M:%S")
 
-    assert node.post_method(RPC_METHOD_HELLO_NAME, echoParam)
+    assert node.post_method(TEST_RPC_METHOD_HELLO_NAME, echoParam)
     assert node.result == echoParam
 
     assert node.stop()
@@ -42,12 +43,12 @@ def test_node_load_echo_module():
     assert node.start()
     assert node.is_alive
 
-    assert node.load_module("https://raw.githubusercontent.com/cybergarage/round-py/master/tests/data/echo.json")
+    assert node.load_module(TEST_ECHO_MODULE)
 
     now = datetime.datetime.now()
     echoParam = now.strftime("%Y/%m/%d %H:%M:%S")
 
-    assert node.post_method(RPC_METHOD_HELLO_NAME, echoParam)
+    assert node.post_method(TEST_RPC_METHOD_HELLO_NAME, echoParam)
     assert node.result == echoParam
 
     assert node.stop()
