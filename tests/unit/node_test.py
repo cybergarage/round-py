@@ -24,7 +24,6 @@ TEST_PY_ECHO_CODE = 'def %s(params):\n' \
 def test_node_echo():
 
     node = TestNode()
-    assert node.start()
     assert node.is_alive
 
     assert node.set_method(TEST_RPC_METHOD_HELLO_NAME, constants.SCRIPT_LANGUAGE_PYTHON, TEST_PY_ECHO_CODE)
@@ -35,12 +34,9 @@ def test_node_echo():
     assert node.post_method(TEST_RPC_METHOD_HELLO_NAME, echoParam)
     assert node.result == echoParam
 
-    assert node.stop()
-
 def test_node_load_echo_module():
 
     node = TestNode()
-    assert node.start()
     assert node.is_alive
 
     assert node.load_module(TEST_ECHO_MODULE)
@@ -50,5 +46,3 @@ def test_node_load_echo_module():
 
     assert node.post_method(TEST_RPC_METHOD_HELLO_NAME, echoParam)
     assert node.result == echoParam
-
-    assert node.stop()

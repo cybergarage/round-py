@@ -29,6 +29,7 @@ class TestNode(Node):
         Node.__init__(self)
         self.server = TestServer()
         self.server.start()
+        self.start()
 
     def start(self):
         if not self.server.start():
