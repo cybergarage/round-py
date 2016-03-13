@@ -8,6 +8,7 @@
 #
 ##################################################################
 
+import os
 import json
 import urllib
 
@@ -17,11 +18,16 @@ from .method import Method
 class Module:
     def __init__(self):
         self.url = ''
+        self.path = ''
         self.dict = {}
 
     @property
     def baseurl(self):
         return self.url
+
+    @property
+    def basepath(self):
+        return os.path.dirname(self.path)
 
     @property
     def name(self):
@@ -40,6 +46,16 @@ class Module:
             methods.append(method)
         return methods
 
+    def is_url(self):
+        if not 0 < len(self.url):
+            return False
+        return True
+
+    def is_file(self):
+        if not 0 < len(self.path):
+            return False
+        return True
+
     def is_valid(self):
         try:
             self.name
@@ -49,8 +65,7 @@ class Module:
             return False
         return True
 
-    def load(self, url):
-        self.url = url
+    def load_url(self, url):
         res = urllib.urlopen(url)
         if res.getcode() != 200:
             return False
@@ -58,4 +73,14 @@ class Module:
         if len(content) <= 0:
             return False
         self.dict =  json.loads(content)
+        self.url = url
+        return True
+
+    def load_file(self, file):
+        with open(file, 'r') as fd:
+            content = fd.read()
+            if len(content) <= 0:
+                return False
+            self.dict =  json.loads(content)
+        self.path = file
         return True

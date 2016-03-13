@@ -85,9 +85,9 @@ class Node:
         }
         return self.post_method(method=constants.SYSTEM_METHOD_SET_METHOD, params=params)
 
-    def load_module(self, url):
+    def load_module_url(self, url):
         module = Module()
-        if not module.load(url):
+        if not module.load_url(url):
             return False
 
         methods = module.methods

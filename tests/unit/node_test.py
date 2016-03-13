@@ -39,7 +39,7 @@ def test_node_load_echo_module():
     node = TestNode()
     assert node.is_alive
 
-    assert node.load_module(TEST_ECHO_MODULE)
+    assert node.load_module_url(TEST_ECHO_MODULE)
 
     now = datetime.datetime.now()
     echoParam = now.strftime("%Y/%m/%d %H:%M:%S")

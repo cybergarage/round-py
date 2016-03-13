@@ -27,8 +27,8 @@ class Method:
         return self.dict[constants.MODULE_PARAM_LANGUAGE]
 
     @property
-    def url(self):
-        return self.dict[constants.MODULE_PARAM_URL]
+    def file(self):
+        return self.dict[constants.MODULE_PARAM_FILE]
 
     @property
     def code(self):
@@ -38,14 +38,14 @@ class Method:
         try:
             self.name
             self.language
-            self.url
+            self.file
             self.code
         except KeyError:
             return False
         return True
 
-    def load(self, baseurl = ''):
-        url = self.url
+    def load_url(self, baseurl = ''):
+        url = self.file
         if 0 < len(baseurl):
             url = urlparse.urljoin(baseurl, url)
 
@@ -56,5 +56,18 @@ class Method:
         if len(code) <= 0:
             return False
         self.dict[constants.MODULE_PARAM_CODE] = code
+
+        return True
+
+    def load_file(self, basepath = ''):
+        path = self.file
+        if 0 < len(basepath):
+            path = '%s/%s' % (basepath, path)
+
+        with open(path, 'r') as fd:
+            code = fd.read()
+            if len(code) <= 0:
+                return False
+            self.dict[constants.MODULE_PARAM_CODE] = code
 
         return True
