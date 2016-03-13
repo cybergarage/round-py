@@ -2,6 +2,6 @@
 	"name": "echo",
 	"version": "1.0",
 	"methods" : [
-		{"name": "echo", "lang": "python", "url": "echo.py"}
+		{"name": "echo", "lang": "python", "file": "echo.py"}
 	]
 }
