@@ -10,7 +10,7 @@
 
 __title__ = 'round-py'
 
-from .server import Server, DebugServer, ProcessServer, ContainerServer
+from .server import Server, TestServer, DebugServer, ProcessServer, ContainerServer
 from .node import Node
 from .cluster import Cluster
 from .client import Client
