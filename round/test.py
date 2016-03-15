@@ -11,7 +11,7 @@
 from .server import Server, DebugServer, ProcessServer, ContainerServer
 from .node import Node
 
-class TestServer(ProcessServer):
+class TestProcessServer(ProcessServer):
     def __init__(self):
         ProcessServer.__init__(self)
 
@@ -24,10 +24,30 @@ class TestServer(ProcessServer):
     def stop(self):
         return ProcessServer.stop(self)
 
+
+class TestDebugServer(DebugServer):
+    def __init__(self):
+        DebugServer.__init__(self)
+
+    def __del__(self):
+        self.stop()
+
+    def start(self, n=1):
+        return DebugServer.start(self, n)
+
+    def stop(self):
+        return DebugServer.stop(self)
+
+class TestServer:
+     @staticmethod
+     def Create():
+         # return TestProcessServer()
+         return TestDebugServer()
+
 class TestNode(Node):
     def __init__(self):
         Node.__init__(self)
-        self.server = TestServer()
+        self.server = TestServer.Create()
         self.server.start()
         self.start()
 
