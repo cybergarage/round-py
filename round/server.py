@@ -15,6 +15,8 @@ import socket
 
 from docker import Client
 
+DOCKER_IF_ADDR = '192.168.99.1'
+
 from . import constants
 from .node import Node
 
@@ -26,8 +28,10 @@ def node_get_hostaddr():
     ifaddrs = hosts[2]
     if isinstance(ifaddrs, str):
         return ifaddrs
-    if isinstance(ifaddrs, list):
-        return ifaddrs[0]
+    for ifaddr in ifaddrs:
+        if ifaddr == DOCKER_IF_ADDR:
+            continue
+        return ifaddr
     return socket.gethostbyname(socket.gethostname())
 
 class Server:
