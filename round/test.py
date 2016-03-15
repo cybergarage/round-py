@@ -24,7 +24,6 @@ class TestProcessServer(ProcessServer):
     def stop(self):
         return ProcessServer.stop(self)
 
-
 class TestDebugServer(DebugServer):
     def __init__(self):
         DebugServer.__init__(self)
