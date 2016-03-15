@@ -21,6 +21,15 @@ from .node import Node
 def node_process_wait():
     time.sleep(0.5)
 
+def node_get_hostaddr():
+    hosts = socket.gethostbyname_ex(socket.gethostname())
+    ifaddrs = hosts[2]
+    if isinstance(ifaddrs, str):
+        return ifaddrs
+    if isinstance(ifaddrs, list):
+        return ifaddrs[0]
+    return socket.gethostbyname(socket.gethostname())
+
 class Server:
     def __init__(self):
         self.nodes = []
@@ -50,7 +59,7 @@ class DebugServer(Server):
 
     def start(self, n=1):
         node = Node()
-        node.address = socket.gethostbyname(socket.gethostname())
+        node.address = node_get_hostaddr()
         node.port = constants.DEFAULT_NODE_BIND_PORT
         self.nodes.append(node)
         return Server.start(self)
@@ -68,9 +77,8 @@ class ProcessServer(Server):
 
     def start(self, n=1):
         self.stop()
-        print(n)
         for offset in xrange(n):
-            addr = socket.gethostbyname(socket.gethostname())
+            addr = node_get_hostaddr()
             port = constants.DEFAULT_NODE_BIND_PORT + offset
             process = multiprocessing.Process(target=exec_round_process, args=(addr, port))
             process.start()
