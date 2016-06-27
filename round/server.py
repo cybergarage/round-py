@@ -15,7 +15,9 @@ import socket
 
 from docker import Client
 
-DOCKER_IF_ADDR = '192.168.99.1'
+from . import constants
+
+LATEST_DOCKER_TAG_NAME = 'latest'
 
 from . import constants
 from .node import Node
@@ -37,6 +39,9 @@ def node_get_hostaddr():
 class Server:
     def __init__(self):
         self.nodes = []
+
+    def __del__(self):
+        self.stop()
 
     def start(n=1):
         return True
@@ -60,6 +65,7 @@ class DebugServer(Server):
 
     def __del__(self):
         self.stop()
+        Server.__del__(self)
 
     def start(self, n=1):
         node = Node()
@@ -78,6 +84,7 @@ class ProcessServer(Server):
 
     def __del__(self):
         self.stop()
+        Server.__del__(self)
 
     def start(self, n=1):
         self.stop()
@@ -112,22 +119,32 @@ class ProcessServer(Server):
         return Server.stop(self)
 
 class ContainerServer(Server):
-    def __init__(self):
+    def __init__(self, repository=constants.DOCKER_IMAGE_NAME, tag=LATEST_DOCKER_TAG_NAME):
         Server.__init__(self)
-        #self.docker = Client(base_url='unix:///var/run/docker.sock')
-        #self.docker = Client(base_url='tcp://192.168.99.100:2376')
-        return
+        docker_image = constants.DOCKER_IMAGE_NAME
+        self.docker = Client(base_url='unix:///var/run/docker.sock')
+        self.docker.pull(
+            repository=repository,
+            tag=tag,
+            stream=False)
+        image = '%s:%s' % (repository, tag)
         self.container = self.docker.create_container(
-            image='cybergarage/round:latest',
-            command='/bin/sleep 5')
-        #for keys,values in self.container.items():
-        #    print(keys)
-        #    print(values)
+            image=image,
+            ports=[constants.DEFAULT_NODE_BIND_PORT],
+            host_config=self.docker.create_host_config(port_bindings={constants.DEFAULT_NODE_BIND_PORT:constants.DEFAULT_NODE_BIND_PORT}),
+            command='/bin/sleep 1')
+        print(self.container)
+
+    def __del__(self):
+        self.docker.remove_container(container=self.container.get('Id'))
+        Server.__del__(self)
 
     def start(self, n=1):
-        return True
         res = self.docker.start(container=self.container.get('Id'))
+        print(res)
+        return True
 
     def stop(self):
+        res = self.docker.stop(container=self.container.get('Id'))
+        print(res)
         return True
-        return self.docker.stop(container=self.container.get('Id'))
