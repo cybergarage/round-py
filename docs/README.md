@@ -5,6 +5,6 @@ A client for round written in Python .....
 ## Test
 
 ```
-export PYTHONPATH=./
+export PYTHONPATH=.
 py.test
 ```
