@@ -8,13 +8,14 @@
 #
 ##################################################################
 
+from __future__ import absolute_import
+
 import subprocess
 import multiprocessing
 import time
 import socket
 
 from docker import Client
-
 from . import constants
 
 LATEST_DOCKER_TAG_NAME = 'latest'

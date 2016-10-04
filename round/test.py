@@ -8,6 +8,8 @@
 #
 ##################################################################
 
+from __future__ import absolute_import
+
 from .server import Server, DebugServer, ProcessServer, ContainerServer
 from .node import Node
 
