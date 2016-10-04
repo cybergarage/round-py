@@ -8,6 +8,8 @@
 #
 ##################################################################
 
+from __future__ import absolute_import
+
 __title__ = 'round-py/rpc'
 
 from .request import Request
